@@ -1,0 +1,230 @@
+#' @title data_generator_loop
+#'
+#' @description Simulate multiple or single clinical trial
+#'
+#' @param n_patient_vector Vector of number of patients
+#' @param p_loe_max The maximum probability of discontinuing due to LoE
+#' @param z_l_loe The lower (or left) threshold of the LoE curve
+#' @param z_u_loe The upper (or right) threshold of the LoE curve
+#' @param p_ee_max The maximum probability of discontinuing due to EE
+#' @param z_l_ee The lower (or left) threshold of the EE curve
+#' @param z_u_ee The upper (or right) threshold of the EE curve
+#' @param timepoints Vector of timepoints (e.g. weeks, days, time indices)
+#' @param pacf_list List of pacf vectors
+#' @param sigma_ar_vec Vector of variances per arm associated with list of pacf vectors
+#' @param mean_list List of vectors of means per arm
+#' @param beta_list List of vectors of beta coefficients per arm.
+#' All vectors must have the same length and must be the same
+#' as the number of columns for the covariate_df
+#' @param p_admin Vector of probabilities of discontinuing due to admin reasons
+#' @param rate_dc_ae Vector of probabilities of observing at least one adverse
+#' event
+#' @param prob_ae Vector of proportions of discontinuing due to adverse event
+#' @param seed_val Starting seed value
+#' @param reference_id ID for pairwise comparisons, e.g. for three arms,
+#' if reference_id=1, then arms 2 and 3 will be compared only to arm 1
+#' @param plot_po TRUE, if plotting data only. Otherwise, set to FALSE
+#' @param up_good "Up" if higher outcome values indicate better responses
+#' @param threshold Value to dichotomize continuous outcomes on
+#' @param total_data Total number of clinical trials to simulate
+#' @param delta_adjustment_in Vector of delta adjustment values or NA if none.
+#' E.g. (2,3,1) when reference_id = 1 means no delta adjustment on arm 1
+#' (even though 2 was supplied, but since arm 1 is the reference arm, this will
+#' be defaulted to 0 regardless), 3 on arm 2 and 1 on arm 3.
+#' @param covariate_df Matrix or dataframe of covariates. Set NA if using default
+#' covariates, which comprises one continuous (standard normal) and binary
+#' (bernoulli with prob 0.5) covariates. Rows correspond to the total number of
+#' subjects. Order matters. For instance, if you want to simulate a trial
+#' with 3 arms, each of size 30,50 and 80, then covariate_df would have 30+50+80
+#' rows such that the first 30 rows are covariates for arm 1, the next 50 rows
+#' are covariates for arm 2 and the last 80 rows are covariates for arm 3.
+#'
+#' @return List of dataframes of estimands and simulated data, including delta
+#' adjusted ones if requested:
+#'   \item{estimand_mean}{List of means of the FULL, S_{++}, S_{*+} and
+#'   PP estimands}
+#'   \item{estimand_sd}{List of standard deviations of the FULL, S_{++},
+#'   S_{*+} and PP estimands}
+#'   \item{dc_mean_list}{List of proportions of discontinuations}
+#'   \item{observed_df}{Dataframe of the observed outcomes}
+#'   \item{po_df}{Dataframe of the potential outcomes}
+#'   \item{ir_df}{Dataframe of the outcomes that have been adjusted via
+#'   immediate reference (IR) or delta adjustment (Delta) for treatment policy
+#'   estimands. The IR outcomes are labelled as ir_data while the delta
+#'   adjusted outcomes are labelled as delta_data.The delta adjusted outcomes
+#'   will only be available if the correct inputs for delta_adjustment_in
+#'   are provided.}
+#' @examples
+#' total_data = 3
+#' reference_id = 1
+#' threshold = NA
+#' timepoints = c(0,24,48,72,96,120,144)
+#' IR_display = TRUE
+#' delta_adjustment_in = c(0,1)
+#'
+#' n_patient_ctrl = 120
+#' n_patient_expt = 150
+#' n_patient_vector = c(n_patient_ctrl, n_patient_expt)
+#' n_total = sum(n_patient_vector)
+#'
+#' mean_control = c(0,0,0,0,0,0,0)
+#' mean_treatment = c(0,0.1,0.2,0.4,0.6,0.8,1)
+#' mean_list = list(mean_control, mean_treatment)
+#'
+#' sigma_ar_vec = c(1, 1)
+#' pacf_list = list(c(-0.2, 0.4),
+#'                  c(-0.2, 0.4))
+#'
+#' beta_list = list(c(1.25, 1.25),
+#'                  c(1.25, 1.25))
+#' covariate_df = NA
+#'
+#' # LoE & EE
+#' up_good = "Up"
+#' p_loe_max = 0.75
+#' z_l_loe = -7
+#' z_u_loe = -1
+#' p_ee_max = 0.1
+#' z_l_ee = 4
+#' z_u_ee = 10
+#'
+#' # Admin & AE
+#'
+#' p_admin_ctrl = 0.02
+#' p_admin_expt = 0.02
+#' p_admin = c(p_admin_ctrl, p_admin_expt)
+#'
+#' prob_ae_ctrl = 0.7
+#' prob_ae_expt = 0.9
+#' prob_ae = c(prob_ae_ctrl, prob_ae_expt)
+#'
+#' rate_dc_ae_ctrl = 0.1
+#' rate_dc_ae_expt = 0.1
+#' rate_dc_ae = c(rate_dc_ae_ctrl, rate_dc_ae_expt)
+#'
+#' starting_seed_val = 1
+#' static_output = TRUE
+#'
+#' mean_out = plot_means(n_patient_vector = n_patient_vector, timepoints = timepoints,
+#' pacf_list = pacf_list, sigma_ar_vec = sigma_ar_vec, mean_list = mean_list,
+#' beta_list = beta_list, reference_id = reference_id, seed_val = starting_seed_val,
+#' total_data = total_data, threshold = threshold, covariate_df = covariate_df,
+#' static_output = static_output)
+#'
+#'plot_loe_ee (mean_list = mean_list, ref_grp = reference_id,
+#'stdev_vec = sigma_ar_vec, p_loe_max = p_loe_max, z_l_loe = z_l_loe,
+#'z_u_loe = z_u_loe, p_ee_max = p_ee_max, z_l_ee = z_l_ee, z_u_ee = z_u_ee,
+#'up_good = up_good, greyscale = FALSE, static_output = static_output)
+#'
+#'data_out = data_generator_loop(n_patient_vector = n_patient_vector,
+#'p_loe_max = p_loe_max, z_l_loe = z_l_loe, z_u_loe = z_u_loe,
+#'p_ee_max = p_ee_max, z_l_ee = z_l_ee, z_u_ee = z_u_ee, timepoints = timepoints,
+#'pacf_list = pacf_list, sigma_ar_vec = sigma_ar_vec, mean_list = mean_list,
+#'beta_list = beta_list, p_admin = p_admin, rate_dc_ae = rate_dc_ae,
+#'prob_ae = prob_ae, seed_val = starting_seed_val, reference_id = reference_id,
+#'plot_po = FALSE, up_good = up_good, threshold = threshold,
+#'total_data = total_data, delta_adjustment_in = delta_adjustment_in,
+#'covariate_df = covariate_df)
+#' @export
+#' @import dplyr ggplot2 plotly tidyr ggthemes
+#'
+data_generator_loop = function(n_patient_vector,
+                               p_loe_max,
+                               z_l_loe,
+                               z_u_loe,
+                               p_ee_max,
+                               z_l_ee,
+                               z_u_ee,
+                               timepoints,
+                               pacf_list,
+                               sigma_ar_vec,
+                               mean_list,
+                               beta_list,
+                               p_admin,
+                               rate_dc_ae,
+                               prob_ae,
+                               seed_val,
+                               reference_id,
+                               plot_po = FALSE,
+                               up_good,
+                               threshold,
+                               total_data,
+                               delta_adjustment_in,
+                               covariate_df){
+
+  # Negate the %in% operator in dplyr
+  `%notin%`= Negate(`%in%`)
+
+  data_out = data_generator(n_patient_vector,
+                            p_loe_max,
+                            z_l_loe,
+                            z_u_loe,
+                            p_ee_max,
+                            z_l_ee,
+                            z_u_ee,
+                            timepoints,
+                            pacf_list,
+                            sigma_ar_vec,
+                            mean_list,
+                            beta_list,
+                            p_admin,
+                            rate_dc_ae,
+                            prob_ae,
+                            seed_val,
+                            reference_id,
+                            plot_po = FALSE,
+                            up_good,
+                            threshold,
+                            delta_adjustment_in,
+                            covariate_df)
+
+  m = ifelse(length(delta_adjustment_in) == 0 | is.na(sum(delta_adjustment_in)), 3, 4)
+
+  if(total_data > 1){
+    pb = txtProgressBar(min = (seed_val),      # Minimum value of the progress bar
+                        max = (seed_val+total_data-1), # Maximum value of the progress bar
+                        style = 3,    # Progress bar style (also available style = 1 and style = 2)
+                        width = 50,   # Progress bar width. Defaults to getOption("width")
+                        char = "=")   # Character used to create the bar
+    for(seed_val in (seed_val+1):(seed_val+total_data-1)){
+      data_temp = data_generator(n_patient_vector,
+                                 p_loe_max,
+                                 z_l_loe,
+                                 z_u_loe,
+                                 p_ee_max,
+                                 z_l_ee,
+                                 z_u_ee,
+                                 timepoints,
+                                 pacf_list,
+                                 sigma_ar_vec,
+                                 mean_list,
+                                 beta_list,
+                                 p_admin,
+                                 rate_dc_ae,
+                                 prob_ae,
+                                 seed_val,
+                                 reference_id,
+                                 plot_po = FALSE,
+                                 up_good,
+                                 threshold,
+                                 delta_adjustment_in,
+                                 covariate_df)
+
+      for(i in 1:(length(data_out)-m)){
+        for(j in 1:length(data_out[[i]])){
+          for(k in 1:length(data_out[[i]][[j]])){
+            data_out[[i]][[j]][[k]] = rbind(data_out[[i]][[j]][[k]], data_temp[[i]][[j]][[k]])
+          }
+        }
+      }
+
+      data_out$observed_df = rbind(data_out$observed_df, data_temp$observed_df)
+      data_out$po_df = rbind(data_out$po_df, data_temp$po_df)
+
+      # Sets the progress bar to the current state
+      setTxtProgressBar(pb, seed_val)
+    }
+  }
+
+  return(data_out)
+}
