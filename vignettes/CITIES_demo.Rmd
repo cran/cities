@@ -20,6 +20,7 @@ library(tidyr)
 library(plotly)
 library(ggplot2)
 library(ggthemes)
+
 ```
 
 ### Simulation Settings in CITIES (Figure 1 in publication)
@@ -91,7 +92,7 @@ static_output = TRUE
 
 
 ### The Mean Treatment Response Settings tab in CITIES (Figure 2 in publication)
-```{r echo=FALSE, results='hide', fig.keep='all', message = FALSE}
+```{r echo=TRUE, results='hide', out.width="50%", fig.keep='all'}
 mean_out = plot_means(n_patient_vector = n_patient_vector,
                       timepoints = timepoints,
                       pacf_list = pacf_list,
@@ -108,7 +109,7 @@ mean_out = plot_means(n_patient_vector = n_patient_vector,
 ```
 
 ### The LoE & EE tab in CITIES (Figure 3 in publication)
-```{r echo=FALSE, results='hide', fig.keep='all', message = FALSE}
+```{r echo=TRUE, results='hide', out.width="50%", fig.keep='all'}
 plot_loe_ee (mean_list = mean_list,
              ref_grp = reference_id,
              stdev_vec = sigma_ar_vec,
@@ -124,7 +125,7 @@ plot_loe_ee (mean_list = mean_list,
 ```
 
 ### Treatment effect profiles for the all six estimands in CITIES (Figure 6 in publication)
-```{r echo=FALSE, results='hide', fig.keep='all', message = FALSE}
+```{r echo=TRUE, results='hide', fig.keep='all',out.width="50%", message = FALSE}
 data_out = data_generator_loop(n_patient_vector,
                                p_loe_max, 
                                z_l_loe,
@@ -158,6 +159,7 @@ estimates_out = plot_estimates(data_out = data_out,
                                static_output = static_output)
 
 ```
+
 
 ```{r}
 estimates_out %>%
@@ -236,7 +238,7 @@ static_output = TRUE
 ```
 
 ### The Mean Treatment Response Settings tab in CITIES for the Diabetes case study (Figure S2 in publication)
-```{r echo=FALSE, results='hide', fig.keep='all', message = FALSE}
+```{r echo=TRUE, results='hide', fig.keep='all', out.width="50%", message = FALSE}
 mean_out = plot_means(n_patient_vector = n_patient_vector,
                       timepoints = timepoints,
                       pacf_list = pacf_list,
@@ -253,7 +255,7 @@ mean_out = plot_means(n_patient_vector = n_patient_vector,
 ```
 
 ### The LoE & EE tab in CITIES for the Diabetes case study (Figure S3 in publication)
-```{r echo=FALSE, results='hide', fig.keep='all', message = FALSE}
+```{r echo=TRUE, results='hide', fig.keep='all',out.width="50%", message = FALSE}
 plot_loe_ee (mean_list = mean_list,
              ref_grp = reference_id,
              stdev_vec = sigma_ar_vec,
@@ -270,7 +272,7 @@ plot_loe_ee (mean_list = mean_list,
 
 ### Treatment effect profiles for the four estimands in CITIES for the Diabetes case study (Figure S5 in publication)
 
-```{r echo=FALSE, results='hide', fig.keep='all', message = FALSE}
+```{r echo=TRUE, results='hide', fig.keep='all',out.width="50%", message = FALSE}
 data_out = data_generator_loop(n_patient_vector,
                                p_loe_max, 
                                z_l_loe,
@@ -381,7 +383,7 @@ static_output = TRUE
 ```
 
 ### The Mean Treatment Response Settings tab in CITIES for the Alzheimer's case study (Figure S8 in publication)
-```{r echo=FALSE, results='hide', fig.keep='all', message = FALSE}
+```{r echo=TRUE, results='hide', fig.keep='all', out.width="50%",message = FALSE}
 mean_out = plot_means(n_patient_vector = n_patient_vector,
                       timepoints = timepoints,
                       pacf_list = pacf_list,
@@ -398,7 +400,7 @@ mean_out = plot_means(n_patient_vector = n_patient_vector,
 ```
 
 ### The LoE & EE tab in Alzheimer's for the Diabetes case study (Figure S9 in publication)
-```{r echo=FALSE, results='hide', fig.keep='all', message = FALSE}
+```{r echo=TRUE, results='hide', fig.keep='all',out.width="50%", message = FALSE}
 plot_loe_ee (mean_list = mean_list,
              ref_grp = reference_id,
              stdev_vec = sigma_ar_vec,
@@ -414,7 +416,7 @@ plot_loe_ee (mean_list = mean_list,
 ```
 
 ### Treatment effect profiles for the four estimands in CITIES for the Alzheimer's case study (Figure S11 in publication)
-```{r echo=FALSE, results='hide', fig.keep='all', message = FALSE}
+```{r echo=TRUE, results='hide', fig.keep='all', out.width="50%",message = FALSE}
 data_out = data_generator_loop(n_patient_vector,
                                p_loe_max, 
                                z_l_loe,
@@ -456,7 +458,7 @@ estimates_out %>%
 
 ### Percentages of treatment discontinuations, and the corresponding ICEs in CITIES for the Alzheimer's case study (Figure S12 in publication)
 
-```{r}
+```{r, out.width="50%",}
 dc_out = plot_dc(data_out = data_out, 
                  total_data = total_data, 
                  timepoints = timepoints,
@@ -554,7 +556,7 @@ IR_display = TRUE
 
 ### The Mean Treatment Response Settings tab in CITIES for the custom covariate example
 
-```{r echo=FALSE, results='hide', fig.keep='all', message = FALSE}
+```{r echo=TRUE, results='hide', fig.keep='all', out.width="50%", message = FALSE}
 mean_out = plot_means(n_patient_vector = n_patient_vector,
                       timepoints = timepoints,
                       pacf_list = pacf_list,
@@ -571,7 +573,7 @@ mean_out = plot_means(n_patient_vector = n_patient_vector,
 ```
 
 ### The LoE & EE tab in Alzheimer's for the custom covariate example
-```{r echo=FALSE, results='hide', fig.keep='all', message = FALSE}
+```{r echo=TRUE, results='hide', fig.keep='all', out.width="50%", message = FALSE}
 plot_loe_ee (mean_list = mean_list,
              ref_grp = reference_id,
              stdev_vec = sigma_ar_vec,
@@ -587,7 +589,7 @@ plot_loe_ee (mean_list = mean_list,
 ```
 
 ### Treatment effect profiles for the four estimands in CITIES for the custom covariate example
-```{r echo=FALSE, results='hide', fig.keep='all', message = FALSE}
+```{r echo=TRUE, results='hide', fig.keep='all', out.width="50%", message = FALSE}
 data_out = data_generator_loop(n_patient_vector,
                                p_loe_max, 
                                z_l_loe,
@@ -629,7 +631,7 @@ estimates_out %>%
 
 ### Percentages of treatment discontinuations, and the corresponding ICEs in CITIES for the custom covariate example
 
-```{r}
+```{r, out.width="50%"}
 dc_out = plot_dc(data_out = data_out, 
                  total_data = total_data, 
                  timepoints = timepoints,

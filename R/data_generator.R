@@ -334,7 +334,7 @@ data_generator = function(n_patient_vector,
       ir_current = current_group
       ir_current[is.na(current_group)] = po_list[[reference_id]][first_patient:n_patient_cumsum[i],-1][is.na(current_group)]
       ir_mean[[i]] = colMeans(ir_current, na.rm = TRUE) - colMeans(po_reference_group, na.rm = TRUE)
-      ir_sd[[i]] = sqrt(apply(ir_current, 2, sd, na.rm = TRUE)^2/n_patient_vector[i] + apply(po_reference_group, 2, sd, na.rm = TRUE)^2/n_patient_vector[reference_id])
+      ir_sd[[i]] = sqrt(apply(ir_current, 2, sd, na.rm = TRUE)^2 + apply(po_reference_group, 2, sd, na.rm = TRUE)^2)
       ir_data[[i]] = ir_current
 
       # delta adjustment
@@ -352,7 +352,7 @@ data_generator = function(n_patient_vector,
       delta_adj_current[id_smaller_ref] = po_list[[reference_id]][first_patient:n_patient_cumsum[i],-1][id_smaller_ref]
 
       delta_adj_mean[[i]] = colMeans(delta_adj_current, na.rm = TRUE) - colMeans(po_reference_group, na.rm = TRUE)
-      delta_adj_sd[[i]] = sqrt(apply(delta_adj_current, 2, sd, na.rm = TRUE)^2/n_patient_vector[i] + apply(po_reference_group, 2, sd, na.rm = TRUE)^2/n_patient_vector[reference_id])
+      delta_adj_sd[[i]] = sqrt(apply(delta_adj_current, 2, sd, na.rm = TRUE)^2 + apply(po_reference_group, 2, sd, na.rm = TRUE)^2)
       delta_adj_data[[i]] = delta_adj_current
 
       # Calculate ACE
@@ -363,7 +363,7 @@ data_generator = function(n_patient_vector,
 
 
       # Calculate variance of ACE
-      pp_sd[[i]] = sqrt(apply(current_group, 2, sd, na.rm = TRUE)^2/n_patient_vector[i] + apply(reference_group, 2, sd, na.rm = TRUE)^2/n_patient_vector[reference_id])
+      pp_sd[[i]] = sqrt(apply(current_group, 2, sd, na.rm = TRUE)^2 + apply(reference_group, 2, sd, na.rm = TRUE)^2)
       s_plus_plus_sd[[i]] = apply(po_after_dc_list[[i]] - po_after_dc_list[[reference_id]], 2, sd, na.rm = TRUE)
       s_star_plus_sd[[i]] = apply(po_after_dc_list[[i]] - po_list[[reference_id]][,-1], 2, sd, na.rm = TRUE)
       full_sd[[i]] = apply(po_list[[i]][,-1] - po_list[[reference_id]][,-1], 2, sd, na.rm = TRUE)

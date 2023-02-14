@@ -10,6 +10,7 @@ plot_estimates(
   timepoints,
   reference_id,
   IR_display = TRUE,
+  delta_display = TRUE,
   normal_output = TRUE,
   static_output = FALSE,
   greyscale = FALSE
@@ -26,6 +27,9 @@ plot_estimates(
 if reference_id=1, then arms 2 and 3 will be compared only to arm 1}
 
 \item{IR_display}{TRUE if requested to display Immediate Reference estimand.
+FALSE otherwise}
+
+\item{delta_display}{TRUE if requested to display Delta estimand.
 FALSE otherwise}
 
 \item{normal_output}{TRUE if both plots and numeric values of estimands are
@@ -49,6 +53,7 @@ threshold = NA
 timepoints = c(0,24,48,72,96,120,144)
 IR_display = TRUE
 delta_adjustment_in = c(0,1)
+delta_display = TRUE
 n_patient_ctrl = 120
 n_patient_expt = 150
 n_patient_vector = c(n_patient_ctrl, n_patient_expt)
@@ -92,6 +97,6 @@ covariate_df = covariate_df)
 
 estimates_out = plot_estimates(data_out = data_out, total_data = total_data,
 timepoints = timepoints, reference_id = reference_id, IR_display = IR_display,
-normal_output = TRUE, static_output = static_output)
+delta_display = delta_display, normal_output = TRUE, static_output = static_output)
 
 }

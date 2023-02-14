@@ -9,6 +9,7 @@ library(plotly)
 library(ggplot2)
 library(ggthemes)
 
+
 ## ----echo = T, results = 'hide'-----------------------------------------------
 total_data = 50
 reference_id = 1
@@ -60,7 +61,7 @@ rate_dc_ae = c(rate_dc_ae_ctrl, rate_dc_ae_expt)
 starting_seed_val = 1
 static_output = TRUE
 
-## ----echo=FALSE, results='hide', fig.keep='all', message = FALSE--------------
+## ----echo=TRUE, results='hide', out.width="50%", fig.keep='all'---------------
 mean_out = plot_means(n_patient_vector = n_patient_vector,
                       timepoints = timepoints,
                       pacf_list = pacf_list,
@@ -75,7 +76,7 @@ mean_out = plot_means(n_patient_vector = n_patient_vector,
                       static_output = static_output)
 
 
-## ----echo=FALSE, results='hide', fig.keep='all', message = FALSE--------------
+## ----echo=TRUE, results='hide', out.width="50%", fig.keep='all'---------------
 plot_loe_ee (mean_list = mean_list,
              ref_grp = reference_id,
              stdev_vec = sigma_ar_vec,
@@ -89,7 +90,7 @@ plot_loe_ee (mean_list = mean_list,
              greyscale = FALSE,
              static_output = TRUE)
 
-## ----echo=FALSE, results='hide', fig.keep='all', message = FALSE--------------
+## ----echo=TRUE, results='hide', fig.keep='all',out.width="50%", message = FALSE----
 data_out = data_generator_loop(n_patient_vector,
                                p_loe_max, 
                                z_l_loe,
@@ -192,7 +193,7 @@ rate_dc_ae = c(rate_dc_ae_ctrl, rate_dc_ae_expt)
 starting_seed_val = 1
 static_output = TRUE
 
-## ----echo=FALSE, results='hide', fig.keep='all', message = FALSE--------------
+## ----echo=TRUE, results='hide', fig.keep='all', out.width="50%", message = FALSE----
 mean_out = plot_means(n_patient_vector = n_patient_vector,
                       timepoints = timepoints,
                       pacf_list = pacf_list,
@@ -207,7 +208,7 @@ mean_out = plot_means(n_patient_vector = n_patient_vector,
                       static_output = static_output)
 
 
-## ----echo=FALSE, results='hide', fig.keep='all', message = FALSE--------------
+## ----echo=TRUE, results='hide', fig.keep='all',out.width="50%", message = FALSE----
 plot_loe_ee (mean_list = mean_list,
              ref_grp = reference_id,
              stdev_vec = sigma_ar_vec,
@@ -221,7 +222,7 @@ plot_loe_ee (mean_list = mean_list,
              greyscale = FALSE,
              static_output = TRUE)
 
-## ----echo=FALSE, results='hide', fig.keep='all', message = FALSE--------------
+## ----echo=TRUE, results='hide', fig.keep='all',out.width="50%", message = FALSE----
 data_out = data_generator_loop(n_patient_vector,
                                p_loe_max, 
                                z_l_loe,
@@ -324,7 +325,7 @@ rate_dc_ae = c(rate_dc_ae_ctrl, rate_dc_ae_expt)
 starting_seed_val = 1
 static_output = TRUE
 
-## ----echo=FALSE, results='hide', fig.keep='all', message = FALSE--------------
+## ----echo=TRUE, results='hide', fig.keep='all', out.width="50%",message = FALSE----
 mean_out = plot_means(n_patient_vector = n_patient_vector,
                       timepoints = timepoints,
                       pacf_list = pacf_list,
@@ -339,7 +340,7 @@ mean_out = plot_means(n_patient_vector = n_patient_vector,
                       static_output = static_output)
 
 
-## ----echo=FALSE, results='hide', fig.keep='all', message = FALSE--------------
+## ----echo=TRUE, results='hide', fig.keep='all',out.width="50%", message = FALSE----
 plot_loe_ee (mean_list = mean_list,
              ref_grp = reference_id,
              stdev_vec = sigma_ar_vec,
@@ -353,7 +354,7 @@ plot_loe_ee (mean_list = mean_list,
              greyscale = FALSE,
              static_output = TRUE)
 
-## ----echo=FALSE, results='hide', fig.keep='all', message = FALSE--------------
+## ----echo=TRUE, results='hide', fig.keep='all', out.width="50%",message = FALSE----
 data_out = data_generator_loop(n_patient_vector,
                                p_loe_max, 
                                z_l_loe,
@@ -391,7 +392,7 @@ estimates_out %>%
   dplyr::select(-se, -Arm, -mean) %>%
   pivot_wider(names_from = Estimand, values_from = mean_se)
 
-## -----------------------------------------------------------------------------
+## ---- out.width="50%"---------------------------------------------------------
 dc_out = plot_dc(data_out = data_out, 
                  total_data = total_data, 
                  timepoints = timepoints,
@@ -470,7 +471,7 @@ starting_seed_val = 1
 static_output = TRUE
 IR_display = TRUE
 
-## ----echo=FALSE, results='hide', fig.keep='all', message = FALSE--------------
+## ----echo=TRUE, results='hide', fig.keep='all', out.width="50%", message = FALSE----
 mean_out = plot_means(n_patient_vector = n_patient_vector,
                       timepoints = timepoints,
                       pacf_list = pacf_list,
@@ -485,7 +486,7 @@ mean_out = plot_means(n_patient_vector = n_patient_vector,
                       static_output = static_output)
 
 
-## ----echo=FALSE, results='hide', fig.keep='all', message = FALSE--------------
+## ----echo=TRUE, results='hide', fig.keep='all', out.width="50%", message = FALSE----
 plot_loe_ee (mean_list = mean_list,
              ref_grp = reference_id,
              stdev_vec = sigma_ar_vec,
@@ -499,7 +500,7 @@ plot_loe_ee (mean_list = mean_list,
              greyscale = FALSE,
              static_output = TRUE)
 
-## ----echo=FALSE, results='hide', fig.keep='all', message = FALSE--------------
+## ----echo=TRUE, results='hide', fig.keep='all', out.width="50%", message = FALSE----
 data_out = data_generator_loop(n_patient_vector,
                                p_loe_max, 
                                z_l_loe,
@@ -537,7 +538,7 @@ estimates_out %>%
   dplyr::select(-se, -mean) %>%
   pivot_wider(names_from = Estimand, values_from = mean_se)
 
-## -----------------------------------------------------------------------------
+## ---- out.width="50%"---------------------------------------------------------
 dc_out = plot_dc(data_out = data_out, 
                  total_data = total_data, 
                  timepoints = timepoints,
