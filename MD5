@@ -1,5 +1,5 @@
-a4646be70ee0383a74ab50f16e488de2 *DESCRIPTION
-4f12590a85774b39c444c1f274b0c6a9 *NAMESPACE
+5b8c1b09c9c4c8c6c82d742b6f2de467 *DESCRIPTION
+5ea685daeb4bd91f8723f2a6208f3130 *NAMESPACE
 b899120f2f0e07e2b9abdd761d870ca6 *R/colSD.R
 9dc03d8ef2187d2181f8a56063307665 *R/data_generator.R
 b189bdd2e7dbfa2a76b28e91b0be04bd *R/data_generator_loop.R
@@ -15,10 +15,10 @@ f5b1d02108ec6565de7a7a881057a0ba *R/p_ae_poisson.R
 408a4ebb16ffded690d4d1a3541261d5 *R/rep_col.R
 8142fecd61f7e7466809d59d17866aba *R/rep_row.R
 92e996a55400f361f2ff1161efdbb66c *R/simulated_data_output.R
-9da2f5bbd019195055a49830dee62777 *build/vignette.rds
-441ae1e09d9e093392f07fe2639f9829 *inst/doc/CITIES_demo.R
+f430b058b47af979b68fe7fdbee2413a *build/vignette.rds
+1ecca9e9c80f54eff729ef20406afaed *inst/doc/CITIES_demo.R
 1c7f4f8f8aa062cb4bc9499d14bfe57e *inst/doc/CITIES_demo.Rmd
-c5c817f4d019dee50850d1d617b27ca7 *inst/doc/CITIES_demo.html
+4dd25d120469d8316003622cd8eb44de *inst/doc/CITIES_demo.html
 58ff670d182f257458e471a2a97ace19 *man/colSD.Rd
 c07511a8dd4ddf1ace8fe5a9a4baedb1 *man/data_generator.Rd
 8e50f58318460d8b9ac85940822d0b33 *man/data_generator_loop.Rd
