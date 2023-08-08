@@ -125,24 +125,27 @@ estimates_out = plot_estimates(data_out = data_out,
 
 
 ## -----------------------------------------------------------------------------
-estimates_out %>%
+display_table = estimates_out %>%
   mutate(mean_se = paste0(mean, " (", round(se, 2) , ")")) %>%
   dplyr::select(-se, -Arm, -mean) %>%
   pivot_wider(names_from = Estimand, values_from = mean_se)
+display_table[,c(1,2,5,3,4,6,7)]
 
 ## -----------------------------------------------------------------------------
 dc_out = plot_dc(data_out = data_out, 
                  total_data = total_data, 
                  timepoints = timepoints,
                  static_output = static_output)
-dc_out %>% 
+
+dc_out1 = dc_out %>% 
   ungroup() %>%
-  filter(Timepoints == max(timepoints)) %>%
+  filter(Timepoints == max(timepoints),
+         Reason != "OVERALL") %>%
   select(Arm, Reason, Value) %>%
   pivot_wider(names_from = Arm,
               values_from = Value) %>%
-  arrange(factor(Reason, levels = c("AE", "LOE", "EE", "ADMIN", "OVERALL")))
-  
+  arrange(factor(Reason, levels = c("AE", "LOE", "EE", "ADMIN")))
+rbind(dc_out1,c("OVERALL",colSums(dc_out1[,-1])))
 
 ## ----echo = T, results = 'hide'-----------------------------------------------
 total_data = 100
@@ -257,23 +260,28 @@ estimates_out = plot_estimates(data_out = data_out,
 
 
 ## -----------------------------------------------------------------------------
-estimates_out %>%
+display_table = estimates_out %>%
   mutate(mean_se = paste0(mean, " (", round(se, 2) , ")")) %>%
   dplyr::select(-se, -Arm, -mean) %>%
   pivot_wider(names_from = Estimand, values_from = mean_se)
+display_table[,c(1,2,5,3,4)]
 
 ## -----------------------------------------------------------------------------
 dc_out = plot_dc(data_out = data_out, 
                  total_data = total_data, 
                  timepoints = timepoints,
                  static_output = static_output)
-dc_out %>% 
+
+## -----------------------------------------------------------------------------
+dc_out1 = dc_out %>% 
   ungroup() %>%
-  filter(Timepoints == max(timepoints)) %>%
+  filter(Timepoints == max(timepoints),
+         Reason != "OVERALL") %>%
   select(Arm, Reason, Value) %>%
   pivot_wider(names_from = Arm,
               values_from = Value) %>%
-  arrange(factor(Reason, levels = c("AE", "LOE", "EE", "ADMIN", "OVERALL")))
+  arrange(factor(Reason, levels = c("AE", "LOE", "EE", "ADMIN")))
+rbind(dc_out1,c("OVERALL",colSums(dc_out1[,-1])))
   
 
 ## ----echo = T, results = 'hide'-----------------------------------------------
@@ -387,33 +395,38 @@ estimates_out = plot_estimates(data_out = data_out,
                                static_output = static_output)
 
 ## -----------------------------------------------------------------------------
-estimates_out %>%
+display_table = estimates_out %>%
   mutate(mean_se = paste0(mean, " (", round(se, 2) , ")")) %>%
   dplyr::select(-se, -Arm, -mean) %>%
   pivot_wider(names_from = Estimand, values_from = mean_se)
+display_table[,c(1,2,5,3,4)]
 
 ## ---- out.width="50%"---------------------------------------------------------
 dc_out = plot_dc(data_out = data_out, 
                  total_data = total_data, 
                  timepoints = timepoints,
                  static_output = static_output)
-dc_out %>% 
+
+## -----------------------------------------------------------------------------
+dc_out1 = dc_out %>% 
   ungroup() %>%
-  filter(Timepoints == max(timepoints)) %>%
+  filter(Timepoints == max(timepoints),
+         Reason != "OVERALL") %>%
   select(Arm, Reason, Value) %>%
   pivot_wider(names_from = Arm,
               values_from = Value) %>%
-  arrange(factor(Reason, levels = c("AE", "LOE", "EE", "ADMIN", "OVERALL")))
+  arrange(factor(Reason, levels = c("AE", "LOE", "EE", "ADMIN")))
+rbind(dc_out1,c("OVERALL",colSums(dc_out1[,-1])))
   
 
 ## ----echo = T, results = 'hide'-----------------------------------------------
 
-p_admin_expt = 0.02
-p_admin_ctrl = 0.03
+p_admin_expt = 0.005
+p_admin_ctrl = 0.005
 
-prob_ae_expt = 0.9
+prob_ae_expt = 0.6
 rate_dc_ae_expt = 0.1
-prob_ae_ctrl = 0.7
+prob_ae_ctrl = 0.3
 rate_dc_ae_ctrl = 0.1
 
 n_patient_expt = 120
@@ -428,12 +441,12 @@ beta_control = c(1.25, 1.25, 1)
 beta_expt = c(1.25, 1.25, 1)
 beta_expt2 = c(1.25, 1.25, 1)
 
-p_loe_max = 0.6 
+p_loe_max = 0.3 
 z_l_loe = -5
-z_u_loe = -1.2
-p_ee_max = 0.15
-z_l_ee = 2.5
-z_u_ee = 4.5
+z_u_loe = -3
+p_ee_max = 0.1
+z_l_ee = 6
+z_u_ee = 7.5
 timepoints = c(0:(length(mean_treatment)-1))*24
 
 up_good = "Up" 
@@ -543,12 +556,16 @@ dc_out = plot_dc(data_out = data_out,
                  total_data = total_data, 
                  timepoints = timepoints,
                  static_output = static_output)
-dc_out %>% 
+
+## -----------------------------------------------------------------------------
+dc_out1 = dc_out %>% 
   ungroup() %>%
-  filter(Timepoints == max(timepoints)) %>%
+  filter(Timepoints == max(timepoints),
+         Reason != "OVERALL") %>%
   select(Arm, Reason, Value) %>%
   pivot_wider(names_from = Arm,
               values_from = Value) %>%
-  arrange(factor(Reason, levels = c("AE", "LOE", "EE", "ADMIN", "OVERALL")))
+  arrange(factor(Reason, levels = c("AE", "LOE", "EE", "ADMIN")))
+rbind(dc_out1,c("OVERALL",colSums(dc_out1[,-1])))
   
 

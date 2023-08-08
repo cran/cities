@@ -347,7 +347,13 @@ data_generator = function(n_patient_vector,
       delta_adj_current = current_group
       delta_adj_current[is.na(current_group)] = po_list[[i]][first_patient:n_patient_cumsum[i],-1][is.na(current_group)] + abs(delta_adjustment[i])*(ifelse(up_good == "Up", -1, 1))
 
-      # If delta far exceeds the reference outcomes, then set it to the reference outcome
+       # If delta far exceeds the reference outcomes, then set it to the reference outcome
+      if(up_good == "Up"){
+        id_smaller_ref = (delta_adj_current < ir_current)
+      }else{
+        id_smaller_ref = (delta_adj_current > ir_current)
+      }
+
       id_smaller_ref = (delta_adj_current < ir_current)
       delta_adj_current[id_smaller_ref] = po_list[[reference_id]][first_patient:n_patient_cumsum[i],-1][id_smaller_ref]
 
@@ -391,11 +397,17 @@ data_generator = function(n_patient_vector,
                         lapply(dc_final, colMeans))
     names(dc_mean_list) = c("dc_mean_loe_list", "dc_mean_ee_list", "dc_mean_admin_list", "dc_mean_ae_list", "dc_mean_overall_list")
 
-    causal_estimand_mean = list(pp_mean, s_plus_plus_mean, s_star_plus_mean, full_mean, ir_mean, delta_adj_mean)
-    names(causal_estimand_mean) = c("PP", "S++", "S*+", "Full", "IR", "Delta")
+    # causal_estimand_mean = list(pp_mean, s_plus_plus_mean, s_star_plus_mean, full_mean, ir_mean, delta_adj_mean)
+    # names(causal_estimand_mean) = c("PP", "S++", "S*+", "Full", "IR", "Delta")
+    #
+    # causal_estimand_sd = list(pp_sd, s_plus_plus_sd, s_star_plus_sd, full_sd, ir_sd, delta_adj_sd)
+    # names(causal_estimand_sd) = c("PP", "S++", "S*+", "Full", "IR", "Delta")
 
-    causal_estimand_sd = list(pp_sd, s_plus_plus_sd, s_star_plus_sd, full_sd, ir_sd, delta_adj_sd)
-    names(causal_estimand_sd) = c("PP", "S++", "S*+", "Full", "IR", "Delta")
+    causal_estimand_mean = list(pp_mean, s_plus_plus_mean, full_mean, ir_mean, delta_adj_mean)
+    names(causal_estimand_mean) = c("PP", "S++",  "Full", "IR", "Delta")
+
+    causal_estimand_sd = list(pp_sd, s_plus_plus_sd, full_sd, ir_sd, delta_adj_sd)
+    names(causal_estimand_sd) = c("PP", "S++", "Full", "IR", "Delta")
 
     #########################################################
     ##### Save Potential Outcomes and Observed Outcomes #####

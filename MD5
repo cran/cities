@@ -1,7 +1,7 @@
-5b8c1b09c9c4c8c6c82d742b6f2de467 *DESCRIPTION
-5ea685daeb4bd91f8723f2a6208f3130 *NAMESPACE
+3a15f94704987951945c0b9ea020a00d *DESCRIPTION
+27ce1952610542e23526243d84ea8a73 *NAMESPACE
 b899120f2f0e07e2b9abdd761d870ca6 *R/colSD.R
-9dc03d8ef2187d2181f8a56063307665 *R/data_generator.R
+c9b798601c51e4bdd9375772e24febe8 *R/data_generator.R
 b189bdd2e7dbfa2a76b28e91b0be04bd *R/data_generator_loop.R
 edff2ccdc3588587ca49612cd2659e38 *R/globals.R
 bcb9b3b6743ce4e1037876299cb5a6a3 *R/line_parameters.R
@@ -16,9 +16,9 @@ f5b1d02108ec6565de7a7a881057a0ba *R/p_ae_poisson.R
 8142fecd61f7e7466809d59d17866aba *R/rep_row.R
 92e996a55400f361f2ff1161efdbb66c *R/simulated_data_output.R
 f430b058b47af979b68fe7fdbee2413a *build/vignette.rds
-1ecca9e9c80f54eff729ef20406afaed *inst/doc/CITIES_demo.R
-1c7f4f8f8aa062cb4bc9499d14bfe57e *inst/doc/CITIES_demo.Rmd
-4dd25d120469d8316003622cd8eb44de *inst/doc/CITIES_demo.html
+03e97d17a5e1de8bcda0241dfa6afe84 *inst/doc/CITIES_demo.R
+90584d9a29d34b9d256ac94ccb82bc7e *inst/doc/CITIES_demo.Rmd
+c23c8e2df1a231ba82f9ee91f871dd5c *inst/doc/CITIES_demo.html
 58ff670d182f257458e471a2a97ace19 *man/colSD.Rd
 c07511a8dd4ddf1ace8fe5a9a4baedb1 *man/data_generator.Rd
 8e50f58318460d8b9ac85940822d0b33 *man/data_generator_loop.Rd
@@ -35,4 +35,4 @@ c3467a895c62edcea242026177ac4f68 *man/rep_row.Rd
 6ca197b9bc221ec700922b97aa6ea174 *man/simulated_data_output.Rd
 71626f79bc576b861bb4d1068fe2fc38 *tests/testthat.R
 25f311752ceff0c725ab28010b4c4926 *tests/testthat/test-check_output.R
-1c7f4f8f8aa062cb4bc9499d14bfe57e *vignettes/CITIES_demo.Rmd
+90584d9a29d34b9d256ac94ccb82bc7e *vignettes/CITIES_demo.Rmd
